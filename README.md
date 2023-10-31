@@ -1,4 +1,4 @@
-# ops445-2023-midterms
+# ops445-2023-midterms-retake
 
 # Setup
 
@@ -19,5 +19,5 @@ Please note that this test run script does not check your script docstring or yo
 ```bash
 cd ~/ops445/midterms/
 pwd #confirm that you are in the right directory
-python3 ./midterms.py student_grades.csv stats.csv
+python3 ./midterms.py 80 student_grades.csv stats.csv
 ```
