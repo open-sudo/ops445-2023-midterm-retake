@@ -1,17 +1,23 @@
-!/usr/bin/python3
+#!/usr/bin/python3
 
 import sys
 
-def compute_stats(source_file: str, stats_file:str):
+def compute_stats(lab_ratio,source_file: str, stats_file:str):
   data =open(source_file,'r')
   lines=data.readlines()
+  lab_ratio_int=int(lab_ratio)
 
-  grade_lines=lines[1:]
+  
+  grade_lines=[]
+  for line in lines[1:]:
+     if len(line)>0 and line[0] != '#' :
+        grade_lines.append(line)
+
   grades={}
   for grade in grade_lines:
       if len(grade.strip())> 0 :
          parts=grade.split(',')
-         grades[parts[0].strip()]=int(parts[1].strip())
+         grades[parts[0].strip()]=(lab_ratio_int/100)*int(parts[2].strip()) + ((100-lab_ratio_int)/100)*int(parts[1].strip())
 
   grade_values=list(grades.values())
 
@@ -42,7 +48,7 @@ def compute_stats(source_file: str, stats_file:str):
   if number_of_students % 2 == 1 :
      median=grade_values[int(number_of_students/2)]
   else:
-     median=(gradeValues[int(number_of_students/2)-1]+grade_values[int(number_of_students/2)])/2
+     median=(grade_values[int(number_of_students/2)-1]+grade_values[int(number_of_students/2)])/2
 
   output=open(stats_file,'w')
   output.write('Minimum Grade:'+str(grade_min)+'\n')
@@ -50,6 +56,15 @@ def compute_stats(source_file: str, stats_file:str):
   output.write('Average Grade:'+str(average)+'\n')
   output.write('Top Students:'+(", ".join(tops))+'\n')
   output.write('Median Grade:'+str(median)+'\n')
+
+
+  final=open(source_file+'.finals','w') 
+  gradeIds=grades.keys()
+  final.write('Student ID, Grade\n')
+  for grade_id in gradeIds :
+       final.write(grade_id+','+str(grades[grade_id])+'\n')
+
+  final.close()
   data.close()
   output.close()
 
@@ -72,8 +87,11 @@ def compute_average(grades: list) -> float:
 def read_grades(source_file: str) -> dict:
   return {}
      
-def write_grades(min: int, max: int, med: int, avg: int, tops: list, stats_file:str):
+def write_stats(min: int, max: int, med: int, avg: int, tops: list, stats_file:str):
     return None
 
+def write_finals(grades: dict):
+     return None
+
 if __name__ == '__main__' :  
-  compute_stats(sys.argv[1],sys.argv[2])
+  compute_stats(sys.argv[1],sys.argv[2],sys.argv[3])
