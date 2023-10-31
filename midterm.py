@@ -2,7 +2,7 @@
 
 import sys
 
-def compute_stats(lab_ratio,source_file: str, stats_file:str):
+def compute_grades(lab_ratio,source_file: str, stats_file:str):
   data =open(source_file,'r')
   lines=data.readlines()
   lab_ratio_int=int(lab_ratio)
@@ -94,4 +94,4 @@ def write_finals(grades: dict):
      return None
 
 if __name__ == '__main__' :  
-  compute_stats(sys.argv[1],sys.argv[2],sys.argv[3])
+  compute_grades(sys.argv[1],sys.argv[2],sys.argv[3])
